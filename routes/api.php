@@ -2,6 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MusicController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\UserController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +20,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+Route::get('/musics', [MusicController::class, 'index']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/likes', [LikeController::class, 'index']);
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::post('/logout', [UserController::class, 'logout']);
+
+    Route::post('/musics', [MusicController::class, 'store']);
+    Route::delete('/musics/{music}', [MusicController::class, 'destroy']);
+
+    Route::post('/likes', [LikeController::class, 'store']);
+    Route::delete('/likes/{like}', [LikeController::class, 'destroy']);
 });
