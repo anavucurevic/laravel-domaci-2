@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/logout', [UserController::class, 'logout']);
 
     Route::post('/musics', [MusicController::class, 'store']);
+    Route::put('/musics/{music}', [MusicController::class, 'update']);
     Route::delete('/musics/{music}', [MusicController::class, 'destroy']);
 
     Route::post('/likes', [LikeController::class, 'store']);

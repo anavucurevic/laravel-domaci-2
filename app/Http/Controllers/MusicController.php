@@ -97,7 +97,43 @@ class MusicController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $music = Music::find($id);
+
+        if (!$music) {
+            return response([
+                'music' => null,
+                'message' => 'muzika nije pronadjena.',
+            ], 404);
+        }
+
+        // VALIDATE DATA
+        $validator = Validator::make($request->all(), [
+        
+            'name' => 'required|string',
+            'lyrics' => 'required|string',
+            'length' => 'required|numeric',
+
+
+
+        ]);
+
+        if ($validator->fails()) {
+            return response([
+                'music' => $music,
+                'message' => 'Neuspela validacija.',
+                'errors' => $validator->messages(),
+            ], 400);
+        }
+
+        $music->name = $request->name;
+        $music->lyrics = $request->lyrics;
+        $music->length = $request->length;
+        $music->save();
+
+        return response([
+            "music" => $music,
+            "message" => "muzika azurirana.",
+        ], 200);
     }
 
     /**

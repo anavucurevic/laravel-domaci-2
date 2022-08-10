@@ -12,7 +12,7 @@ class Like extends Model
 
     protected $fillable = [
         'user_id',
-        'clip_id'
+        'music_id'
     ];
 
     public function user()
